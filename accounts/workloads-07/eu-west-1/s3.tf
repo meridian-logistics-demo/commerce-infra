@@ -122,6 +122,19 @@ resource "aws_s3_bucket_versioning" "wl07_orders_assets_03" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl07_orders_assets_03" {
+  bucket = aws_s3_bucket.wl07_orders_assets_03.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl07_orders_assets_04" {
   bucket = "wl07-orders-assets-04"
   tags   = {
@@ -170,4 +183,17 @@ resource "aws_s3_bucket_logging" "wl07_orders_assets_04" {
   bucket        = aws_s3_bucket.wl07_orders_assets_04.id
   target_bucket = "audit-logs"
   target_prefix = "wl07-orders-assets-04/"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "wl07_orders_assets_04" {
+  bucket = aws_s3_bucket.wl07_orders_assets_04.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
 }

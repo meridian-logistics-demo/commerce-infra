@@ -44,6 +44,19 @@ resource "aws_s3_bucket_versioning" "wl05_orders_assets_01" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl05_orders_assets_01" {
+  bucket = aws_s3_bucket.wl05_orders_assets_01.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl05_orders_assets_02" {
   bucket = "wl05-orders-assets-02"
   tags   = {
@@ -130,6 +143,19 @@ resource "aws_s3_bucket_versioning" "wl05_orders_assets_03" {
   bucket = aws_s3_bucket.wl05_orders_assets_03.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "wl05_orders_assets_03" {
+  bucket = aws_s3_bucket.wl05_orders_assets_03.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
   }
 }
 

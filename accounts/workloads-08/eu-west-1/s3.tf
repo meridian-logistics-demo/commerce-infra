@@ -124,6 +124,19 @@ resource "aws_s3_bucket_versioning" "wl08_orders_assets_03" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl08_orders_assets_03" {
+  bucket = aws_s3_bucket.wl08_orders_assets_03.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl08_orders_assets_04" {
   bucket = "wl08-orders-assets-04"
   tags   = {

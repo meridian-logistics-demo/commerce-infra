@@ -44,6 +44,19 @@ resource "aws_s3_bucket_versioning" "wl01_orders_assets_01" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl01_orders_assets_01" {
+  bucket = aws_s3_bucket.wl01_orders_assets_01.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl01_orders_assets_02" {
   bucket = "wl01-orders-assets-02"
   tags   = {
@@ -161,5 +174,18 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "wl01_orders_asset
       sse_algorithm = "AES256"
     }
     bucket_key_enabled = false
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "wl01_orders_assets_04" {
+  bucket = aws_s3_bucket.wl01_orders_assets_04.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
   }
 }

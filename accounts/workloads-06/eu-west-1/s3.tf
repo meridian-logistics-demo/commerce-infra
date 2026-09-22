@@ -33,6 +33,19 @@ resource "aws_s3_bucket_logging" "wl06_orders_assets_01" {
   target_prefix = "wl06-orders-assets-01/"
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl06_orders_assets_01" {
+  bucket = aws_s3_bucket.wl06_orders_assets_01.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl06_orders_assets_02" {
   bucket = "wl06-orders-assets-02"
   tags   = {
@@ -112,6 +125,19 @@ resource "aws_s3_bucket_versioning" "wl06_orders_assets_03" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl06_orders_assets_03" {
+  bucket = aws_s3_bucket.wl06_orders_assets_03.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl06_orders_assets_04" {
   bucket = "wl06-orders-assets-04"
   tags   = {
@@ -160,4 +186,17 @@ resource "aws_s3_bucket_logging" "wl06_orders_assets_04" {
   bucket        = aws_s3_bucket.wl06_orders_assets_04.id
   target_bucket = "audit-logs"
   target_prefix = "wl06-orders-assets-04/"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "wl06_orders_assets_04" {
+  bucket = aws_s3_bucket.wl06_orders_assets_04.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
 }

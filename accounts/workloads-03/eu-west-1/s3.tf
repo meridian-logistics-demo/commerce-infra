@@ -77,6 +77,19 @@ resource "aws_s3_bucket_logging" "wl03_orders_assets_02" {
   target_prefix = "wl03-orders-assets-02/"
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "wl03_orders_assets_02" {
+  bucket = aws_s3_bucket.wl03_orders_assets_02.id
+  rule {
+    id     = "archive"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "wl03_orders_assets_03" {
   bucket = "wl03-orders-assets-03"
   tags   = {
